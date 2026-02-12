@@ -3,6 +3,10 @@ package com.example.MiniPetProject.order.domain;
 import com.example.MiniPetProject.order.domain.Order;
 import com.example.MiniPetProject.product.domain.Product;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,10 +29,18 @@ public class OrderItem {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    private String productName; // <-- добавляем поле
+    @NotNull(message = "product name is required")
+    @Size(min = 1, max = 100)
+    private String productName;
 
     private BigDecimal price;
+
+    @NotNull
+    @Min(0)
+    @Max(100)
     private int quantity;
+
+    @NotNull
     private BigDecimal totalPrice;
 
     @PrePersist

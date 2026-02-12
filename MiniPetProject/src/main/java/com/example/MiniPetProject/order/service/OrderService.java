@@ -35,14 +35,17 @@ public class OrderService {
 
     public List<OrderResponseDto> getOrders(){
         List<Order> orders = orderRepository.findAll();
+        log.info("Orders found: {}", orders);
         return orders.stream()
                 .map(orderMapper::toOrderResponseDto)
                 .collect(Collectors.toList());
     }
 
     public OrderDetailsResponseDto getOrderById(int id){
+        log.info("Getting order by id: {}", id);
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Order not found with id: " + id));
+        log.info("Order found: {}", order);
         return orderMapper.toOrderDetailsResponseDto(order);
     }
 
@@ -78,7 +81,7 @@ public class OrderService {
             orderItem.setQuantity(itemDto.getQuantity());
             orderItem.setTotalPrice(product.getPrice().multiply(BigDecimal.valueOf(itemDto.getQuantity())));
 
-            order.getItems().add(orderItem); //
+            order.getItems().add(orderItem);
             orderTotalPrice = orderTotalPrice.add(orderItem.getTotalPrice());
         }
 

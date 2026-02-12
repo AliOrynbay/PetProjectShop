@@ -3,6 +3,7 @@ package com.example.MiniPetProject.user.api;
 import com.example.MiniPetProject.user.domain.User;
 import com.example.MiniPetProject.user.repository.UserRepository;
 import com.example.MiniPetProject.user.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping("")
-    public ResponseEntity<UserRegistrationDto> createUser(@RequestBody UserRegistrationDto userRegistrationDto) {
+    public ResponseEntity<UserRegistrationDto> createUser(@RequestBody @Valid UserRegistrationDto userRegistrationDto) {
         return new ResponseEntity<>(userService.createUser(userRegistrationDto), HttpStatus.CREATED);
     }
 }
