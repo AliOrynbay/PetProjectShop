@@ -8,6 +8,8 @@ import com.example.MiniPetProject.user.repository.UserRepository;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,7 @@ public class    UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
+
     public List<UserResponseDto> findAll(){
         log.info("Trying to find all users");
         List<UserResponseDto> foundUsers;
@@ -34,7 +37,7 @@ public class    UserService {
         return foundUsers;
     }
 
-
+    @Cacheable(value = "users" , key = "#id")
     public UserResponseDto findUserById(Long id) {
         log.info("Trying to find user by id {}", id);
         User user = userRepository.findById(id)
@@ -51,6 +54,7 @@ public class    UserService {
 
 
     @Transactional
+    @CacheEvict(value = "users", key = "#userRegistrationDto.id")
     public UserRegistrationDto createUser(UserRegistrationDto userRegistrationDto) {
         log.info("Trying to create user {}", userRegistrationDto);
         User user = userMapper.toEntity(userRegistrationDto);

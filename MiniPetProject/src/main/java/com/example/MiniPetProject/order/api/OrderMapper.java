@@ -23,10 +23,6 @@ public interface OrderMapper {
 
     @Mapping(target = "productId", source = "product.id")
     @Mapping(target = "productName", source = "product.name")
-<<<<<<< HEAD
-    @Mapping(target = "totalAmount", source = "totalPrice") 
-=======
     @Mapping(target = "totalAmount", source = "totalPrice")
->>>>>>> 96029f5 (some changes)
     OrderItemResponseDto toOrderItemResponseDto(OrderItem orderItem);
 }
