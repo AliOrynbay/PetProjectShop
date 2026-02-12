@@ -1,9 +1,11 @@
 package com.example.MiniPetProject.product.api;
 
 import com.example.MiniPetProject.product.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,18 +23,18 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponseDto> getProductById(@PathVariable Long id) {
-        return new ResponseEntity<>(productService.findById(id) , HttpStatus.OK);
+        return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
     }
 
     @PostMapping("")
-    public ResponseEntity<ProductResponseDto> createProduct(@RequestBody ProductRequestDto productDto) {
+    public ResponseEntity<ProductResponseDto> createProduct(@RequestBody @Valid ProductRequestDto productDto) {
         ProductResponseDto createdProduct = productService.createProduct(productDto);
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
     public ResponseEntity<ProductRequestDto> updateProduct(@PathVariable Long id ,
-                                                            @RequestBody ProductRequestDto productDto) {
+                                                            @RequestBody @Valid ProductRequestDto productDto) {
         ProductRequestDto updatedProduct = productService.updateProduct(productDto , id);
         return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
     }

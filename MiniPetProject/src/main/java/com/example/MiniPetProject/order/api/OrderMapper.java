@@ -23,6 +23,6 @@ public interface OrderMapper {
 
     @Mapping(target = "productId", source = "product.id")
     @Mapping(target = "productName", source = "product.name")
-    @Mapping(target = "totalAmount", source = "totalPrice") // если у тебя в DTO totalAmount, а в Entity totalPrice
+    @Mapping(target = "totalAmount", source = "totalPrice")
     OrderItemResponseDto toOrderItemResponseDto(OrderItem orderItem);
 }

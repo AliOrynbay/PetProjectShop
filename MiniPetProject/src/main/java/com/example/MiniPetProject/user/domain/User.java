@@ -2,6 +2,9 @@ package com.example.MiniPetProject.user.domain;
 
 import com.example.MiniPetProject.user.domain.UserStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,15 +25,22 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
+    @NotNull
+    @Email(message = "Invalid message format")
     private String email;
+
 
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
     @Column(name = "first_name", nullable = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     private String firstName;
 
     @Column(name = "last_name", nullable = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     private String lastName;
 
     @Enumerated(EnumType.STRING)

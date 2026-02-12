@@ -2,6 +2,7 @@ package com.example.MiniPetProject.order.domain;
 
 import com.example.MiniPetProject.user.domain.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +19,7 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -31,12 +33,16 @@ public class Order {
     )
     private List<OrderItem> items = new ArrayList<>();
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     OrderStatus status;
 
     private BigDecimal totalAmount;
 
+    @NotNull
     private Instant createdAt;
+
+    @NotNull
     private Instant updatedAt;
 
     @PrePersist
