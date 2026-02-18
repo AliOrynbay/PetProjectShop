@@ -13,8 +13,8 @@ services:
       - "27017:27017"
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: mongo
-      MONGO_INITDB_ROOT_PASSWORD: 123
+      MONGO_INITDB_ROOT_USERNAME: username
+      MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
       - mongo_data:/data/db
 
