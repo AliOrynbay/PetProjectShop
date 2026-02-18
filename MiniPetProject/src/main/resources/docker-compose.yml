@@ -1,18 +1,22 @@
 services:
-  db:
-    image: postgres:15
-    container_name: minipet-db
-    environment:
-      POSTGRES_DB: DB4PetProject1
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123
-    ports:
-      - "5433:5432"
-    restart: always
-
   redis:
     image: redis:7
     container_name: minipet-redis
     ports:
       - "6379:6379"
     restart: always
+
+  mongo:
+    image: mongo:7
+    container_name: minipet-mongo
+    ports:
+      - "27017:27017"
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: 123
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:

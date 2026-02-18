@@ -12,6 +12,8 @@ import com.example.MiniPetProject.user.domain.User;
 import com.example.MiniPetProject.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +43,7 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
+    @Cacheable(value = "orders" , key = "#id")
     public OrderDetailsResponseDto getOrderById(int id){
         log.info("Getting order by id: {}", id);
         Order order = orderRepository.findById(id)
@@ -50,6 +53,7 @@ public class OrderService {
     }
 
     @Transactional
+    @CacheEvict(value = "orders" , key = "#result.id")
     public OrderDetailsResponseDto createOrder(OrderRequestDto dto) {
 
         log.info("Received OrderRequestDto: {}", dto);
@@ -92,6 +96,15 @@ public class OrderService {
         log.info("Order saved successfully with ID: {}", order.getId());
 
         return orderMapper.toOrderDetailsResponseDto(order);
+    }
+
+    public void deactivateOrderById(int id){
+        log.info("Deactivating order by id: {}", id);
+        Order foundOrder = orderRepository.findById(id).orElseThrow();
+        log.info("Order found: {}", foundOrder);
+        foundOrder.setStatus(OrderStatus.CANCELLED);
+        orderRepository.save(foundOrder);
+        log.info("Order deactivated successfully with ID: {}", foundOrder.getId());
     }
 
 }

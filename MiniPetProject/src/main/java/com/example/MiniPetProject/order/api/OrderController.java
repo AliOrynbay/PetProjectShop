@@ -27,6 +27,12 @@ public class OrderController {
         return new ResponseEntity<>(orderService.getOrderById(id), HttpStatus.OK);
     }
 
+    @GetMapping("/{id}/deactivate")
+    public ResponseEntity<OrderDetailsResponseDto> deactivateOrder(@PathVariable int id) {
+        orderService.deactivateOrderById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping("")
     public ResponseEntity<OrderDetailsResponseDto> createOrder(@RequestBody @Valid OrderRequestDto orderRequestDto) {
         return new ResponseEntity<>(orderService.createOrder(orderRequestDto), HttpStatus.OK);

@@ -7,6 +7,8 @@ import com.example.MiniPetProject.product.domain.Product;
 import com.example.MiniPetProject.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +33,7 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
+    @Cacheable(value = "products" , key = "#id")
     public ProductResponseDto findById(Long id){
         log.info("Trying to find product by id {}", id);
         Product product = productRepository.findById(id)
@@ -46,6 +49,7 @@ public class ProductService {
     }
 
     @Transactional
+    @CacheEvict(value = "products" , key = "#result.id")
     public ProductResponseDto createProduct(ProductRequestDto productDto ){
         log.info("Trying to create product {}", productDto);
         if(productDto != null){
@@ -76,4 +80,5 @@ public class ProductService {
     public void deleteProductById(Long id){
         productRepository.deleteById(id);
     }
+
 }
