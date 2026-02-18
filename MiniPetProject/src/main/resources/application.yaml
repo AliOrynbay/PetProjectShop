@@ -1,9 +1,9 @@
 spring:
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/DB4PetProject1
-    username: postgres
-    password: 123
+    url: url
+    username: username
+    password: password
 
   jpa:
     hibernate:
@@ -16,7 +16,7 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://mongo:123@localhost:27017/DB4PetProject2?authSource=admin
+      uri: mongodb://username:password@localhost:27017/DB4PetProject2?authSource=admin
 
     redis:
       host: localhost
